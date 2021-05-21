@@ -1,24 +1,26 @@
-var helper = require('../../support/helper')
+const Locators = require("../../fixtures/Locators.json");
+var helper = require('../../support/helper');
+var faker = require("faker");
 describe('negative cases', () => {
         it('visit gallery app', () => {
             cy.visit('')
             cy.get(':nth-child(2) > .nav-link').click()
         })
         it('all empty', () => {
-            cy.get('.btn').click()
+            cy.get(Locators.Register.Submit).click()
         })
         it('all spaces', () => {
-            cy.get('#first-name').type('  ')
-            cy.get('#last-name').type('  ')
-            cy.get('#email').type('  ')
-            cy.get('[type="checkbox"]').check()
-            cy.get('.btn').click()
+            cy.get(Locators.Register.FirstName).type('  ')
+            cy.get(Locators.Register.LastName).type('  ')
+            cy.get(Locators.Register.Password).type('  ')
+            cy.get(Locators.Register.Check).check()
+            cy.get(Locators.Register.Submit).click()
         })
         it('maximum caracters on first and last name', () => {
-            cy.get('#first-name').clear().type(helper.getNCharactersLetters(256))
-            cy.get('#last-name').clear().type(helper.getNCharactersLetters(256))
-            cy.get('#email').clear().type('aaa@gmail.com')
-            cy.get('#password').clear().type('aaa11111')
+            cy.get(Locators.Register.FirstName).clear().type(helper.getNCharactersLetters(256))
+            cy.get(Locators.Register.LastName).clear().type(helper.getNCharactersLetters(256))
+            cy.get(Locators.Register.Email).clear().type('aaa@gmail.com')
+            cy.get(Locators.Register.Password).clear().type('aaa11111')
             cy.get('#password-confirmation').clear().type('aaa11111')
             cy.get('[type="checkbox"]').check()
             cy.get('.btn').click()
@@ -94,11 +96,11 @@ describe('positive case', () => {
         cy.visit('')
         cy.get(':nth-child(2) > .nav-link').click()
     });
-    it('smoke test', () => {
+    it.only('smoke test', () => {
         var email = "nin" + Math.floor(Math.random() * 10000) + "@gmail.com"
         cy.get('#first-name').clear().type('nina')
         cy.get('#last-name').clear().type('ninic')
-        cy.get('#email').clear().type(email)
+        cy.get('#email').clear().type(faker.internet.email())
         cy.get('#password').clear().type('as332101')
         cy.get('#password-confirmation').clear().type('as332101')
         cy.get('[type="checkbox"]').check()
